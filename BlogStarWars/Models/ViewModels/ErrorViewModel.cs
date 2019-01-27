@@ -1,6 +1,6 @@
 using System;
 
-namespace BlogStarWars.Models
+namespace BlogStarWars.Models.ViewModels
 {
     public class ErrorViewModel
     {
