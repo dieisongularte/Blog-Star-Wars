@@ -58,9 +58,26 @@ namespace BlogStarWars.Services
             }
         }
 
+        public async Task<List<Post>> FindTakeAsync()
+        {
+            return await _context.Post.OrderByDescending(x => x.QuantLikes).Take(5).ToListAsync();
+        }
+
         public async Task<List<Post>> FindAllAync()
         {
             return await _context.Post.ToListAsync();
+        }
+
+        public async Task<int> TotalLikes()
+        {
+            int total = await _context.Post.SumAsync(x => x.QuantLikes);
+            return total;
+        }
+
+        public async Task<int> TotalViews()
+        {
+            int total = await _context.Post.SumAsync(x => x.QuantViews);
+            return total;
         }
 
     }
