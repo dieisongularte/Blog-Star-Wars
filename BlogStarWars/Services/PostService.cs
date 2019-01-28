@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BlogStarWars.Data;
 using BlogStarWars.Models;
+using BlogStarWars.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace BlogStarWars.Services
@@ -25,15 +26,36 @@ namespace BlogStarWars.Services
 
         public async Task RemoveAsync(int id)
         {
-            var obj = await _context.Post.FindAsync(id);
-            _context.Post.Remove(obj);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var obj = await _context.Post.FindAsync(id);
+                _context.Post.Remove(obj);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException e)
+            {
+                throw new IntegrityException(e.Message);
+            }
         }
 
         public async Task UpdateAsync(Post obj)
         {
-            _context.Update(obj);
-            await _context.SaveChangesAsync();
+            bool hasAny = await _context.Post.AnyAsync(x => x.Id == obj.Id);
+
+            if (!hasAny)
+            {
+                throw new NotFoundException("Id not found");
+            }
+
+            try
+            {
+                _context.Update(obj);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException e)
+            {
+                throw new DbConcurrencyException(e.Message);
+            }
         }
 
         public async Task<List<Post>> FindAllAync()
