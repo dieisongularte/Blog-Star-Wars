@@ -63,9 +63,9 @@ namespace BlogStarWars.Services
             return await _context.Post.OrderByDescending(x => x.QuantLikes).Take(5).ToListAsync();
         }
 
-        public async Task<List<Post>> FindAllAync()
+        public async Task<Post> FindByIdAsync(int id)
         {
-            return await _context.Post.ToListAsync();
+            return await _context.Post.FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
         public async Task<int> TotalLikes()
