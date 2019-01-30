@@ -89,6 +89,8 @@ namespace BlogStarWars.Controllers
                 return RedirectToAction(nameof(Error), new { message =  "Id not found" });
             }
 
+            await CountViews(obj);
+
             return View(obj);
         }
 
@@ -130,6 +132,20 @@ namespace BlogStarWars.Controllers
             {
                 return RedirectToAction(nameof(Error), new { message = e.Message });
             }
+        }
+
+        public async Task<IActionResult> CountLikes(int id)
+        {
+            var post = await _postService.FindByIdAsync(id);
+            post.QuantLikes++;
+            await _postService.UpdateAsync(post);
+            return View("Details", post);
+        }
+
+        private async Task CountViews(Post post)
+        {
+            post.QuantViews++;
+            await _postService.UpdateAsync(post);
         }
 
         public IActionResult Error(string message)
