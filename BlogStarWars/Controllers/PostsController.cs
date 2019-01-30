@@ -23,7 +23,8 @@ namespace BlogStarWars.Controllers
         public async Task<IActionResult> Index()
         {
             var list = await _postService.FindTakeAsync();
-            return View(list);
+            var viewModel = new PostFormViewModel { Posts = list };
+            return View(viewModel);
         }
 
         public IActionResult Create()
