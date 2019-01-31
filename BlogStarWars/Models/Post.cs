@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlogStarWars.Models
 {
@@ -24,17 +25,10 @@ namespace BlogStarWars.Models
         [Display(Name = "Views")]
         public int QuantViews { get; set; }
 
-        public Post()
-        {
-        }
+        [NotMapped]
+        public string PercLikesTotal { get; set; }
 
-        public Post(string title, string descripiton, string content)
-        {
-            Title = title;
-            Description = descripiton;
-            Content = content;
-            QuantLikes = 0;
-            QuantViews = 0;
-        }
+        [NotMapped]
+        public string PercViewsTotal { get; set; }
     }
 }

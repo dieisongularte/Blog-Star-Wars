@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Globalization;
 using BlogStarWars.Data;
 using BlogStarWars.Models;
 using BlogStarWars.Services.Exceptions;
@@ -78,6 +79,11 @@ namespace BlogStarWars.Services
         {
             int total = await _context.Post.SumAsync(x => x.QuantViews);
             return total;
+        }
+
+        public string CalculationPercentage(int totalItem, int totalGrand)
+        {
+            return ((double)totalItem / totalGrand * 100).ToString("F2", CultureInfo.InvariantCulture);
         }
 
     }

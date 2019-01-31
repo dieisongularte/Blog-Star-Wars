@@ -23,7 +23,18 @@ namespace BlogStarWars.Controllers
         public async Task<IActionResult> Index()
         {
             var list = await _postService.FindTakeAsync();
-            var viewModel = new PostFormViewModel { Posts = list };
+            var totalLikes = await _postService.TotalLikes();
+            var totalViews = await _postService.TotalViews();
+
+            foreach (var item in list)
+            {
+                string totalItem = _postService.CalculationPercentage(item.QuantLikes, totalLikes);
+                string totalGrand = _postService.CalculationPercentage(item.QuantViews, totalViews);
+                item.PercLikesTotal = totalItem;
+                item.PercViewsTotal = totalGrand;
+            }
+
+            var viewModel = new PostFormViewModel { Posts = list, TotalLikes = totalLikes, TotalViews = totalViews };
             return View(viewModel);
         }
 
