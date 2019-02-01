@@ -61,7 +61,11 @@ namespace BlogStarWars.Services
 
         public async Task<List<Post>> FindTakeAsync()
         {
-            return await _context.Post.OrderByDescending(x => x.QuantLikes).Take(5).ToListAsync();
+            return await _context.Post.OrderByDescending(x => x.Id)
+                .Take(5)
+                .OrderByDescending(x => x.QuantLikes)
+                .ThenByDescending(x => x.QuantViews)
+                .ToListAsync();
         }
 
         public async Task<Post> FindByIdAsync(int id)
@@ -69,16 +73,14 @@ namespace BlogStarWars.Services
             return await _context.Post.FirstOrDefaultAsync(obj => obj.Id == id);
         }
 
-        public async Task<int> TotalLikes()
+        public int TotalLikes(List<Post> posts)
         {
-            int total = await _context.Post.SumAsync(x => x.QuantLikes);
-            return total;
+            return posts.Sum(x => x.QuantLikes);
         }
 
-        public async Task<int> TotalViews()
+        public int TotalViews(List<Post> posts)
         {
-            int total = await _context.Post.SumAsync(x => x.QuantViews);
-            return total;
+            return posts.Sum(x => x.QuantViews);
         }
 
         public string CalculationPercentage(int totalItem, int totalGrand)

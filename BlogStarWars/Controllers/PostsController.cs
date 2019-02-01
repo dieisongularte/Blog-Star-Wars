@@ -23,8 +23,8 @@ namespace BlogStarWars.Controllers
         public async Task<IActionResult> Index()
         {
             var list = await _postService.FindTakeAsync();
-            var totalLikes = await _postService.TotalLikes();
-            var totalViews = await _postService.TotalViews();
+            var totalLikes = _postService.TotalLikes(list);
+            var totalViews = _postService.TotalViews(list);
 
             foreach (var item in list)
             {

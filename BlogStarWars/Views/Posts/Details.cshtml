@@ -41,10 +41,12 @@
         </dd>
     </dl>
 </div>
+
 <div>
     <a asp-action="CountLikes" asp-route-id="@Model.Id" class="btn btn-success">Like</a>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">Edit</a>
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-default">Edit</a> |
     <a asp-action="Index">Back to list</a>
 </div>
