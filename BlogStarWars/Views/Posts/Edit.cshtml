@@ -30,6 +30,8 @@
                 <input type="submit" value="Save" class="btn btn-success" /> |
                 <a asp-action="Index">Back to list</a>
             </div>
+            @Html.HiddenFor(m => m.QuantLikes)
+            @Html.HiddenFor(m => m.QuantViews)
         </form>
     </div>
 </div>
